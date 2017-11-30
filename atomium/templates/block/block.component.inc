@@ -122,6 +122,8 @@ function atomium_preprocess_block(&$variables, $hook) {
 
   $variables['atomium']['attributes']['wrapper']->append('class', drupal_html_class('block-' . $variables['block']->module));
 
+  $variables['atomium']['attributes']['wrapper']->merge(array('class' => $variables['classes']));
+
   $variables['title']['#markup'] = '';
   if ($variables['block']->subject) {
     $variables['title']['#markup'] = $variables['block']->subject;

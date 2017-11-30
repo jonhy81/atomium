@@ -83,7 +83,19 @@ function atomium_preprocess_status_messages(&$variables, $hook) {
     $output[$type] = $container;
   }
 
-  $variables[$hook] = array(
-    $hook => $output,
-  );
+  if ($status_messages) {
+    $variables[$hook] = array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'class' => array(
+          'l-messages',
+        ),
+        'role' => array(
+          'status',
+        ),
+        'aria-label' => t('Status messages'),
+      ),
+      $hook => $output,
+    );
+  }
 }

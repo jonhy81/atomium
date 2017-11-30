@@ -30,15 +30,4 @@ function atomium_preprocess_system_compact_link(&$variables, $hook) {
       'query' => drupal_get_destination(),
     ),
   );
-
-  if (system_admin_compact_mode()) {
-    $variables['link']['#text'] = t('Show descriptions');
-    $variables['link']['#path'] = 'admin/compact/off';
-    $variables['link']['#options']['attributes']['title'] = t('Expand layout to include descriptions.');
-  }
-  else {
-    $variables['link']['#text'] = t('Hide descriptions');
-    $variables['link']['#path'] = 'admin/compact/on';
-    $variables['link']['#options']['attributes']['title'] = t('Compress layout by hiding descriptions.');
-  }
 }

@@ -1,7 +1,8 @@
 name = Atomium Bootstrap
 description = A theme based on Atomium and Bootstrap 4 framework
 engine = phptemplate
-core = 7.x
+type = theme
+backdrop = 1.x
 base theme = atomium
 
 ;-------------- F E A T U R E S -------------

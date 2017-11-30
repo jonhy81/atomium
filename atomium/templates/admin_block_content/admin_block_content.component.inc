@@ -27,9 +27,6 @@ function atomium_preprocess_admin_block_content(&$variables, $hook) {
 
   if (!empty($variables['content'])) {
     $variables['atomium']['attributes']['wrapper']->append('class', 'admin-list');
-    if ($variables['compact'] = system_admin_compact_mode()) {
-      $variables['atomium']['attributes']['wrapper']->append('class', 'compact');
-    }
   }
 
   foreach ($variables['content'] as &$item) {
