@@ -9,5 +9,5 @@
  * Implements hook_preprocess_hook().
  */
 function atomium_basis_preprocess_button(&$variables, $hook) {
-   $variables['atomium']['attributes']['element']->append('class', 'form-' . $variables['element']['type']);
+  $variables['atomium']['attributes']['element']->append('class', 'form-' . $variables['element']['#type']);
 }
