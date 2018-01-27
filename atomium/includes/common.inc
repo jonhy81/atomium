@@ -459,16 +459,6 @@ function _atomium_preprocess_theme_suggestion(array &$variables, $hook) {
 }
 
 /**
- * Invokes a specific suggestion's process functions.
- *
- * @param array $variables
- *   The theme implementation variables array.
- */
-function _atomium_process_theme_suggestion(array &$variables, $hook) {
-  _atomium_preprocess_process_theme_suggestion('process', $variables, $hook);
-}
-
-/**
  * Custom callback.
  *
  * This is to avoid duplicate code while invoking specific theme

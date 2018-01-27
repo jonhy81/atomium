@@ -55,11 +55,6 @@ function atomium_theme_registry_alter(&$registry) {
     return;
   }
 
-  // Inject the "footer" variable default in the existing "table" hook.
-  // @see https://drupal.org/node/806982
-  // @todo Make this discoverable in some way instead of a manual injection.
-  $registry['table']['variables']['footer'] = NULL;
-
   // Process registered hooks in the theme registry.
   _atomium_process_theme_registry($registry, $themes);
 
@@ -76,9 +71,6 @@ function atomium_theme_registry_alter(&$registry) {
     }
     if (!empty($registry[$hook]['preprocess functions'])) {
       $registry[$hook]['preprocess functions'] = array_unique($info['preprocess functions']);
-    }
-    if (!empty($registry[$hook]['process functions'])) {
-      $registry[$hook]['process functions'] = array_unique($info['process functions']);
     }
 
     // Ensure "theme path" is set.
@@ -131,7 +123,6 @@ function _atomium_process_theme_registry(array &$registry, $themes) {
   // functions always being executed after the preprocess functions.
   $variable_process_phases = array(
     'preprocess functions' => 'preprocess',
-    'process functions'    => 'process',
   );
 
   // Iterate over each theme passed.
@@ -288,7 +279,6 @@ function _atomium_process_theme_registry_suggestions(array &$registry, $themes) 
   // functions always being executed after the preprocess functions.
   $variable_process_phases = array(
     'preprocess functions' => 'preprocess',
-    'process functions'    => 'process',
   );
 
   $grouped_functions = drupal_group_functions_by_prefix();
@@ -353,7 +343,6 @@ function _atomium_process_theme_registry_suggestions(array &$registry, $themes) 
                 $registry[$base_hook] += array(
                   'type' => 'theme',
                   'preprocess functions' => array(),
-                  'process functions' => array(),
                 );
                 $hook_type = isset($registry[$base_hook]['function']) ? 'function' : 'template';
                 $arg_name = isset($registry[$base_hook]['variables']) ? 'variables' : 'render element';
@@ -363,7 +352,6 @@ function _atomium_process_theme_registry_suggestions(array &$registry, $themes) 
                   'base hook' => $original_hook,
                   'type' => $registry[$base_hook]['type'],
                   'preprocess functions' => array(),
-                  'process functions' => array(),
                   'includes' => $registry[$base_hook]['includes'],
                 );
                 if (isset($registry[$base_hook]['path'])) {
