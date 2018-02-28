@@ -84,7 +84,7 @@ function atomium_preprocess_status_messages(&$variables, $hook) {
   }
 
   if ($status_messages) {
-    $variables[$hook] = array(
+    $variables[$variables['base_hook']] = array(
       '#type' => 'container',
       '#attributes' => array(
         'class' => array(
@@ -95,7 +95,7 @@ function atomium_preprocess_status_messages(&$variables, $hook) {
         ),
         'aria-label' => t('Status messages'),
       ),
-      $hook => $output,
+      $variables['base_hook'] => $output,
     );
   }
 }
