@@ -23,6 +23,7 @@ function atomium_atomium_theme_item_list() {
             'item-list',
           ),
         ),
+        'atomium' => array(),
       ),
     ),
   );
@@ -32,6 +33,11 @@ function atomium_atomium_theme_item_list() {
  * Implements hook_preprocess_hook().
  */
 function atomium_preprocess_item_list(&$variables, $hook) {
+  $variables += array(
+    'wrapper' => TRUE,
+    'wrapper_attributes' => array(),
+  );
+
   // Only output the list container and title, if there are any list items.
   // Check to see whether the block title exists before adding a header.
   // Empty headers are not semantic and present accessibility challenges.

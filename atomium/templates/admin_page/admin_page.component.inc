@@ -31,6 +31,9 @@ function atomium_preprocess_admin_page(&$variables, $hook) {
   $container = array();
 
   foreach ($variables['blocks'] as $block) {
+    if (0 == $block['has_children']) {
+      continue;
+    }
     if (empty($block['position'])) {
       // Perform automatic striping.
       $block['position'] = ++$stripe % 2 ? 'left' : 'right';

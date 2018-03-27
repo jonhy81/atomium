@@ -17,14 +17,6 @@
  * designed to only load the necessary files when a given theme hook is invoked.
  */
 
-// Auto-rebuild the theme registry during theme development.
-if (theme_get_setting('atomium_rebuild_registry') && !defined('MAINTENANCE_MODE')) {
-  // Rebuild .info data.
-  system_rebuild_theme_data();
-  // Rebuild theme registry.
-  drupal_theme_rebuild();
-}
-
 /**
  * Include common functions used through out theme.
  */
@@ -34,6 +26,18 @@ atomium_include('atomium', 'includes/config.inc');
 atomium_include('atomium', 'includes/preprocess.inc');
 atomium_include('atomium', 'includes/process.inc');
 atomium_include('atomium', 'includes/classes');
+
+// Load each component file so that functions defined in them are available.
+foreach (atomium_find_templates() as $theme => $theme_data) {
+  foreach ($theme_data as $component => $component_data) {
+    $file = sprintf('%s/%s.component.inc', $component_data['directory'], $component);
+    if (!file_exists($file)) {
+      continue;
+    }
+
+    require_once $file;
+  }
+}
 
 /**
  * Implements hook_theme().
