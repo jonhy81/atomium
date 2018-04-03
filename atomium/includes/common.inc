@@ -712,3 +712,26 @@ function atomium_get_base_hook($hook) {
 
   return $hook;
 }
+
+/**
+ * Retrieves output to be displayed in the HEAD tag of the HTML page.
+ */
+function atomium_drupal_get_html_head(array $context = array()) {
+  $elements = drupal_add_html_head();
+
+  foreach (element_children($elements) as $element_key) {
+    if (!isset($elements[$element_key]['#type'])) {
+      continue;
+    }
+
+    if ($element = element_info($elements[$element_key]['#type'])) {
+      $elements[$element_key]['#theme'] = _atomium_extend_theme_hook(
+        $element['#theme'],
+        array($elements[$element_key]['#tag'], $context['theme_hook_original'])
+      );
+    }
+  }
+
+  return $elements;
+}
+

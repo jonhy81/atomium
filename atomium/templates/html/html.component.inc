@@ -106,6 +106,8 @@ function atomium_process_html(&$variables, $hook) {
       }
     }
   }
+
+  $variables['head'] = atomium_drupal_get_html_head($variables);
 }
 
 /**
