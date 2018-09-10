@@ -538,47 +538,58 @@ function _atomium_array_flatten(array $array, array &$storage, $parentKey = '') 
  *   The settings as an array.
  */
 function atomium_get_settings($setting_keys, $base_themes = TRUE, array $value_callbacks = array('trim')) {
+  static $settings_by_cid = [];
+
   $theme_key = $GLOBALS['theme_key'];
-  $settings_flat_filtered = _atomium_get_settings_flat_filtered($theme_key, $base_themes, $value_callbacks);
+  $cid = $theme_key . ':' . $setting_keys;
 
-  return isset($settings_flat_filtered[$setting_keys])
-    ? $settings_flat_filtered[$setting_keys]
-    : [];
-}
-
-/**
- * @param string $theme_key
- * @param bool $base_themes
- * @param callable[] $value_callbacks
- *
- * @return mixed
- */
-function _atomium_get_settings_flat_filtered($theme_key, $base_themes = TRUE, $value_callbacks = ['trim']) {
-  static $settings_flat_filtered_by_cid = [];
-  $cid = $theme_key;
   if ($base_themes) {
     $cid .= '(b)';
   }
+
   if ([] === $value_callbacks) {
-    $trim = FALSE;
+    $cid .= '()';
   }
   elseif (['trim'] === $value_callbacks) {
-    $trim = TRUE;
     $cid .= '(t)';
   }
   else {
     // Don't cache. There could be closures in $value_callbacks.
-    $trim = NULL;
-    $cid = NULL;
+    return _atomium_do_get_settings($setting_keys, $base_themes, $value_callbacks);
   }
 
-  if (NULL !== $cid && isset($settings_flat_filtered_by_cid[$cid])) {
-    return $settings_flat_filtered_by_cid[$cid];
+  if (isset($settings_by_cid[$cid])) {
+    return $settings_by_cid[$cid];
   }
+
+  return $settings_by_cid[$cid] = _atomium_do_get_settings(
+    $setting_keys,
+    $base_themes,
+    $value_callbacks);
+}
+
+/**
+ * Get settings from the current theme info file.
+ *
+ * @param string $setting_keys
+ *   The settings to get, flattened (concatenated with ".")
+ * @param bool $base_themes
+ *   TRUE to get the value in the base_themes
+ *   if the settings is not found in current theme,
+ *   FALSE otherwise.
+ * @param array $value_callbacks
+ *   The list of callbacks to apply to retrieved values.
+ *
+ * @return array
+ *   The settings as an array.
+ */
+function _atomium_do_get_settings($setting_keys, $base_themes = TRUE, array $value_callbacks = ['trim']) {
+
+  $value = _atomium_get_settings_unfiltered($setting_keys, $base_themes);
 
   $empty_string_value = '';
   $empty_string_value_empty = TRUE;
-  if (NULL === $trim) {
+  if ([] !== $value_callbacks && ['trim'] !== $value_callbacks) {
     // Let's see what our value callbacks do to the empty string.
     foreach ($value_callbacks as $value_callback) {
       $empty_string_value = $value_callback($empty_string_value);
@@ -586,78 +597,74 @@ function _atomium_get_settings_flat_filtered($theme_key, $base_themes = TRUE, $v
     $empty_string_value_empty = empty($empty_string_value);
   }
 
-  $theme_settings_flat = _atomium_get_settings_flat_unfiltered($theme_key, $base_themes);
-
-
-  foreach ($theme_settings_flat as $key => &$value) {
-    if (NULL === $value) {
-      $value = [];
-      continue;
-    }
-    if ('' === $value) {
-      if ($empty_string_value_empty) {
-        $value = [];
-      }
-      else {
-        $value = [$empty_string_value];
-      }
-      continue;
-    }
-    if ([] === $value) {
-      // Leave it as is.
-      continue;
-    }
-
-    if (is_string($value)) {
-      $value = explode(',', $value);
-    }
-    elseif (is_array($value)) {
-      // Leave as is.
-    }
-    else {
-      $value = [];
-      continue;
-    }
-
-    foreach ($value_callbacks as $value_callback) {
-      $value = array_map($value_callback, $value);
-    }
-
-    $value = array_values(array_filter($value));
+  if ([] === $value || NULL === $value) {
+    return [];
   }
 
-  if (NULL !== $cid) {
-    $settings_flat_filtered_by_cid[$cid] = $theme_settings_flat;
+  if ('' === $value) {
+    return $empty_string_value_empty
+      ? []
+      : [$empty_string_value];
   }
 
-  return $theme_settings_flat;
+  if (is_string($value)) {
+    $value = explode(',', $value);
+  }
+  elseif (is_array($value)) {
+    // Leave as is.
+  }
+  else {
+    return [];
+  }
+
+  foreach ($value_callbacks as $value_callback) {
+    $value = array_map($value_callback, $value);
+  }
+
+  return array_values(array_filter($value));
 }
 
 /**
- * @param string $theme_key
+ * @param string $setting_keys
  * @param bool $base_themes
+ * @param mixed $else
  *
- * @return array|mixed
+ * @return array
  */
-function _atomium_get_settings_flat_unfiltered($theme_key, $base_themes = TRUE) {
-  static $settings_flat_by_cid = [];
+function _atomium_get_settings_unfiltered($setting_keys, $base_themes = TRUE, $else = []) {
+  static $settingss_by_cid = [];
+  $theme_key = $GLOBALS['theme_key'];
+
   $cid = $theme_key;
   if ($base_themes) {
     $cid .= '(b)';
   }
-  if (isset($settings_flat_by_cid[$cid])) {
-    return $settings_flat_by_cid[$cid];
-  }
-  if (!$theme_settings = atomium_get_theme_info($theme_key, 'settings', $base_themes)) {
-    return $settings_flat_by_cid[$cid] = [];
+
+  if (!isset($settingss_by_cid[$cid])) {
+    $settingss_by_cid[$cid] = atomium_get_theme_info($theme_key, 'settings', $base_themes) ?: [];
   }
 
-  $theme_settings_flat = [];
-  _atomium_array_flatten(
-    $theme_settings,
-    $theme_settings_flat);
+  if (isset($settingss_by_cid[$cid][$setting_keys])) {
+    return $settingss_by_cid[$cid][$setting_keys];
+  }
 
-  return $settings_flat_by_cid[$cid] = $theme_settings_flat;
+  if ([] === $settingss_by_cid[$cid]) {
+    return $settingss_by_cid[$cid][$setting_keys] = $else;
+  }
+
+  if (FALSE === $pos = strrpos($setting_keys, '.')) {
+    return $settingss_by_cid[$cid][$setting_keys] = $else;
+  }
+
+  $prefix = substr($setting_keys, 0, $pos);
+  $suffix = substr($setting_keys, $pos + 1);
+  $prefix_settings = _atomium_get_settings_unfiltered($prefix, $base_themes);
+
+  if (!isset($prefix_settings[$suffix])) {
+    return $settingss_by_cid[$cid][$setting_keys] = $else;
+  }
+
+  return $settingss_by_cid[$cid][$setting_keys] = $prefix_settings[$suffix];
 }
 
 /**
