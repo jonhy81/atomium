@@ -59,26 +59,6 @@ abstract class AbstractTest extends TestCase {
   }
 
   /**
-   * Return attribute fixtures.
-   *
-   * @return array
-   *   List of attributes fixtures.
-   */
-  public function attributesProvider() {
-    $data = array();
-
-    $finder = new Finder();
-    $finder->files()->in(\realpath(__DIR__ . '/../fixtures/attributes'));
-    foreach ($finder as $file) {
-      $data[] = array(
-        'attribute_fixture' => Yaml::parse($file->getContents()),
-      );
-    }
-
-    return $data;
-  }
-
-  /**
    * Return preprocess fixtures.
    *
    * @return array

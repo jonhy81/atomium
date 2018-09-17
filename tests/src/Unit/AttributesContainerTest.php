@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\atomium\Unit;
 
+use drupol\htmltag\Attribute\Attribute;
 use Drupal\atomium\AttributesContainer;
 
 /**
@@ -16,7 +17,7 @@ class AttributesContainerTest extends AbstractUnitTest {
    */
   public function testAttributesContainer() {
     $attributesContainer = new AttributesContainer();
-    expect($attributesContainer)->to->be->instanceof('drupal\atomium\AttributesContainer');
+    expect($attributesContainer)->to->be->instanceof('Drupal\atomium\AttributesContainer');
   }
 
   /**
@@ -25,7 +26,7 @@ class AttributesContainerTest extends AbstractUnitTest {
   public function testSetAttributes() {
     $attributesContainer = new AttributesContainer();
     $attributesContainer['attributes'] = array('class', 'example');
-    expect($attributesContainer['attributes'])->to->be->instanceof('drupal\atomium\Attributes');
+    expect($attributesContainer['attributes'])->to->be->instanceof('drupol\htmltag\Attributes\AttributesInterface');
   }
 
   /**
@@ -46,7 +47,7 @@ class AttributesContainerTest extends AbstractUnitTest {
     expect($container->offsetGet('foo')['class'])->to->equal(array('bar'));
 
     unset($container['foo']);
-    expect($container['foo'])->to->be->instanceof('drupal\atomium\Attributes');
+    expect($container['foo'])->to->be->instanceof('drupol\htmltag\Attributes\AttributesInterface');
     expect($container['foo']->getStorage())->to->be->empty();
   }
 
@@ -58,8 +59,8 @@ class AttributesContainerTest extends AbstractUnitTest {
     $container['foo'] = array('class' => 'bar');
     $container['bar'] = array('class' => 'foo');
 
-    expect($container['foo'])->to->be->instanceof('drupal\atomium\Attributes');
-    expect($container['bar'])->to->be->instanceof('drupal\atomium\Attributes');
+    expect($container['foo'])->to->be->instanceof('drupol\htmltag\Attributes\AttributesInterface');
+    expect($container['bar'])->to->be->instanceof('drupol\htmltag\Attributes\AttributesInterface');
 
     expect($container['foo']->toArray())->to->be->equal(array('class' => array('bar')));
     expect($container['bar']->toArray())->to->be->equal(array('class' => array('foo')));
