@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\atomium\Unit;
 
+use drupol\htmltag\Attribute\Attribute;
 use Drupal\atomium\AttributesContainer;
 
 /**

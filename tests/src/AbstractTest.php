@@ -31,4 +31,44 @@ abstract class AbstractTest extends TestCase {
     }, \iterator_to_array($finder));
   }
 
+  /**
+   * Return preprocess fixtures.
+   *
+   * @return array
+   *   List of variables fixtures.
+   */
+  public function variablesPreprocessProvider() {
+    $data = array();
+
+    $finder = new Finder();
+    $finder->files()->in(drupal_realpath(__DIR__ . '/../fixtures/preprocess'));
+    foreach ($finder as $file) {
+      $data[] = array(
+        'variable_fixture' => Yaml::parse($file->getContents()),
+      );
+    }
+
+    return $data;
+  }
+
+  /**
+   * Return process fixtures.
+   *
+   * @return array
+   *   List of variables fixtures.
+   */
+  public function variablesProcessProvider() {
+    $data = array();
+
+    $finder = new Finder();
+    $finder->files()->in(drupal_realpath(__DIR__ . '/../fixtures/process'));
+    foreach ($finder as $file) {
+      $data[] = array(
+        'variable_fixture' => Yaml::parse($file->getContents()),
+      );
+    }
+
+    return $data;
+  }
+
 }
