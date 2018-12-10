@@ -1,24 +1,26 @@
 <?php
 
-namespace drupol\atomium;
+namespace Drupal\atomium;
 
-use drupol\htmltag\Attribute\Attribute;
+use drupol\htmltag\Attribute\AbstractAttribute;
 
-class AtomiumClassAttribute extends Attribute
-{
+/**
+ * Class AtomiumClassAttribute.
+ */
+class AtomiumClassAttribute extends AbstractAttribute {
+
   /**
    * {@inheritdoc}
    */
-  public function preprocess(array $values, $name = NULL) {
+  public function preprocess(array &$values, $name = NULL) {
     // Trim values.
-    $values = array_map('trim', $values);
+    $values = \array_map('trim', $values);
 
     // Remove duplicated values.
-    $values = array_unique($values);
+    $values = \array_unique($values);
 
     // Sort values.
-    natcasesort($values);
-
-    return parent::preprocess($values, $name);
+    \natcasesort($values);
   }
+
 }

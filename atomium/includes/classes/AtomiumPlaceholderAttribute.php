@@ -1,17 +1,19 @@
 <?php
 
-namespace drupol\atomium;
+namespace Drupal\atomium;
 
-use drupol\htmltag\Attribute\Attribute;
+use drupol\htmltag\Attribute\AbstractAttribute;
 
-class AtomiumPlaceholderAttribute extends Attribute
-{
+/**
+ * Class AtomiumPlaceholderAttribute.
+ */
+class AtomiumPlaceholderAttribute extends AbstractAttribute {
+
   /**
    * {@inheritdoc}
    */
-  public function preprocess(array $values, $name = NULL) {
-    $values = array_map('strip_tags', $values);
-
-    return parent::preprocess($values, $name);
+  public function preprocess(array &$values, $name = NULL) {
+    $values = \array_map('strip_tags', $values);
   }
+
 }
