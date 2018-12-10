@@ -49,7 +49,7 @@ function atomium_preprocess_username(array &$variables, $hook) {
       ),
       '#theme_wrappers' => array('html_tag'),
       '#tag' => 'span',
-      '#attributes' => $variables['atomium']['attributes']['wrapper']->toArray(),
+      '#attributes' => $variables['atomium']['attributes']['wrapper']->getValuesAsArray(),
     );
 
     _atomium_extend_theme_property(

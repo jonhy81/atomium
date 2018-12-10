@@ -3,6 +3,10 @@ imports:
 parameters:
   extensions:
     - OpenEuropa\CodeReview\ExtraTasksExtension
+  tasks.phpcs.ignore_patterns:
+    - vendor/
+    - node_modules/
+    - atomium/includes/classes/htmltag
   extra_tasks:
     phpcsfixer2: ~
     phpunit:

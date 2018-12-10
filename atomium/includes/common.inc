@@ -5,6 +5,11 @@
  * common.inc
  */
 
+use drupol\htmltag\Attributes\AttributesFactory;
+use drupol\htmltag\Attribute\AttributeFactory;
+use drupol\atomium\AtomiumClassAttribute;
+use drupol\atomium\AtomiumPlaceholderAttribute;
+
 /**
  * Includes a theme file.
  *
@@ -682,4 +687,20 @@ function _atomium_extend_value_with_suggestions(&$hook, array $suggestions_parts
   else {
     _registryonsteroids_alter_extend_value_with_suggestions($hook, $suggestions_parts);
   }
+}
+
+/**
+ * Get an instance of an Atomium attributes object.
+ *
+ * @param array $values
+ *   The initial values of the attributes.
+ *
+ * @return \drupol\htmltag\Attributes\AttributesInterface
+ *   An attributes object.
+ */
+function atomium_get_attributes(array $values) {
+  AttributeFactory::$registry['class'] = AtomiumClassAttribute::class;
+  AttributeFactory::$registry['placeholder'] = AtomiumPlaceholderAttribute::class;
+
+  return AttributesFactory::build($values);
 }

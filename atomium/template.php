@@ -22,8 +22,21 @@
  */
 include_once __DIR__ . '/includes/common.inc';
 
+include_once __DIR__ . '/includes/classes/htmltag/RenderableInterface.php';
+include_once __DIR__ . '/includes/classes/htmltag/StringableInterface.php';
+include_once __DIR__ . '/includes/classes/htmltag/AlterableInterface.php';
+include_once __DIR__ . '/includes/classes/htmltag/AbstractBaseHtmlTagObject.php';
+include_once __DIR__ . '/includes/classes/htmltag/Attributes/AttributesInterface.php';
+include_once __DIR__ . '/includes/classes/htmltag/Attributes/AttributesFactoryInterface.php';
+include_once __DIR__ . '/includes/classes/htmltag/Attributes/Attributes.php';
+include_once __DIR__ . '/includes/classes/htmltag/Attributes/AttributesFactory.php';
+include_once __DIR__ . '/includes/classes/htmltag/Attribute/AttributeInterface.php';
+include_once __DIR__ . '/includes/classes/htmltag/Attribute/AttributeFactoryInterface.php';
+include_once __DIR__ . '/includes/classes/htmltag/Attribute/Attribute.php';
+include_once __DIR__ . '/includes/classes/htmltag/Attribute/AttributeFactory.php';
+include_once __DIR__ . '/includes/classes/AtomiumClassAttribute.php';
+include_once __DIR__ . '/includes/classes/AtomiumPlaceholderAttribute.php';
 include_once __DIR__ . '/includes/classes/AttributesContainer.php';
-include_once __DIR__ . '/includes/classes/Attributes.php';
 include_once __DIR__ . '/includes/config.inc';
 include_once __DIR__ . '/includes/preprocess.inc';
 
