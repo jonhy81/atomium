@@ -3,6 +3,7 @@
 $finder = PhpCsFixer\Finder::create()
     ->exclude('node_modules')
     ->exclude('build')
+    ->exclude('atomium/includes/classes/htmltag')
     ->name('*.install')
     ->name('*.inc')
     ->name('*.module')
