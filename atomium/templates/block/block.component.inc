@@ -20,35 +20,6 @@ function atomium_preprocess_block(array &$variables, $hook) {
     $variables['classes_array'] = \array_merge($variables['classes_array'], (array) $variables['block']->classes);
   }
 
-  if (isset($variables['block']->atomium)) {
-    if (isset($variables['block']->atomium['total_blocks_in_regions'])) {
-      if (isset($variables['block']->atomium['block_index_in_region'])) {
-        $total = $variables['block']->atomium['total_blocks_in_regions'];
-        $index = $variables['block']->atomium['block_index_in_region'];
-
-        if (0 == $index) {
-          $variables['atomium']['attributes']['wrapper']->append('class', 'first');
-        }
-
-        if ($total == $index) {
-          $variables['atomium']['attributes']['wrapper']->append('class', 'last');
-        }
-
-        $variables['atomium']['attributes']['wrapper']->append('class', 'weight-' . $index);
-      }
-    }
-  }
-
-  if (
-    ('system' == $variables['elements']['#block']->module && 'navigation' == $variables['elements']['#block']->delta) ||
-    ('system' == $variables['elements']['#block']->module && 'main-menu' == $variables['elements']['#block']->delta) ||
-    ('system' == $variables['elements']['#block']->module && 'user-menu' == $variables['elements']['#block']->delta) ||
-    ('admin' == $variables['elements']['#block']->module && 'menu' == $variables['elements']['#block']->delta) ||
-    'menu_block' == $variables['elements']['#block']->module
-  ) {
-    $variables['theme_hook_suggestions'][] = 'block__menu';
-  }
-
   $variables['atomium']['attributes']['wrapper']->append('class', $variables['classes_array']);
   $variables['atomium']['attributes']['wrapper']->remove('class', atomium_get_settings('preprocess.block.classes_to_remove', TRUE));
 
