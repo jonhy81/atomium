@@ -4,8 +4,11 @@ namespace drupol\atomium;
 
 use drupol\htmltag\Attribute\Attribute;
 
-class AtomiumPlaceholderAttribute extends Attribute
-{
+/**
+ * Class AtomiumPlaceholderAttribute.
+ */
+class AtomiumPlaceholderAttribute extends Attribute {
+
   /**
    * {@inheritdoc}
    */
@@ -14,4 +17,5 @@ class AtomiumPlaceholderAttribute extends Attribute
 
     return parent::preprocess($values, $name);
   }
+
 }
