@@ -13,7 +13,7 @@ class AtomiumPlaceholderAttribute extends Attribute {
    * {@inheritdoc}
    */
   public function preprocess(array $values, $name = NULL) {
-    $values = array_map('strip_tags', $values);
+    $values = \array_map('strip_tags', $values);
 
     return parent::preprocess($values, $name);
   }

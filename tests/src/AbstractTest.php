@@ -10,8 +10,6 @@ use Underscore\Types\Arrays;
 
 /**
  * Class AbstractTest.
- *
- * @package Drupal\Tests\atomium
  */
 abstract class AbstractTest extends TestCase {
 
