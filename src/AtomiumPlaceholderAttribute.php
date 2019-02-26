@@ -1,6 +1,6 @@
 <?php
 
-namespace drupol\atomium;
+namespace Drupal\atomium;
 
 use drupol\htmltag\Attribute\Attribute;
 

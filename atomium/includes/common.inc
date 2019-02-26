@@ -7,8 +7,8 @@
 
 use drupol\htmltag\Attributes\AttributesFactory;
 use drupol\htmltag\Attribute\AttributeFactory;
-use drupol\atomium\AtomiumClassAttribute;
-use drupol\atomium\AtomiumPlaceholderAttribute;
+use Drupal\atomium\AtomiumClassAttribute;
+use Drupal\atomium\AtomiumPlaceholderAttribute;
 
 /**
  * Includes a theme file.
