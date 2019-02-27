@@ -225,6 +225,12 @@ function atomium_find_templates() {
     );
 
     foreach ($directories as $directory) {
+      $component_directory = $path . '/' . $directory;
+
+      if (!\is_dir($component_directory)) {
+        continue;
+      }
+
       yield array(
         'theme' => $theme,
         'component' => $directory,
